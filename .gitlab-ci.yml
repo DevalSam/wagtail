@@ -1,6 +1,21 @@
+image: python:3.9-slim-buster
+
+before_script:
+  - apt-get update && apt-get install make
+
+stages:
+  - format
+  - test
+
+lint_format:
+  stage: format
+  script:
+    - npm install --global prettier
+    - prettier --check .
+  only:
+    - merge_requests
+
 run_test:
-    image: python:3.9-slim-buster
-    before_script:
-        - apt-get update && apt-get install make
-    script:
-      - make test
+  stage: test
+  script:
+    - make test
